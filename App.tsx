@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { GoogleGenAI } from "@google/genai";
 import { INITIAL_DISHES, COMMITTEE_MEMBERS } from './constants';
 import { DishItem } from './types';
 
@@ -24,7 +23,13 @@ const App: React.FC = () => {
   const askCommitteeAI = async () => {
     setIsAiLoading(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+      const { GoogleGenAI } = await import("@google/genai");
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
+      if (!apiKey) {
+        setAiInsult("কমিটির API কী পাওয়া যায়নি। অ্যাডমিনকে বলুন VITE_GEMINI_API_KEY সেট করতে।");
+        return;
+      }
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: "You are a very sarcastic and funny Bengali 'Committee President' for a Pahela Falgun party. Write a 2-line funny warning or comment for people who bring only 100g of food or try to bring 'Chaler Ruti' as a one-dish. Use a mix of English and Bengali. Be dramatic.",
