@@ -1,40 +1,409 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Falgun One-Dish Party 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        body {
-            font-family: 'Hind Siliguri', sans-serif;
-            background-color: #fff9e6;
+      body {
+        font-family: 'Hind Siliguri', sans-serif;
+        background-color: #fff9e6;
+      }
+      .falgun-gradient {
+        background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+      }
+      .rule-card:hover {
+        transform: translateY(-2px);
+        transition: all 0.3s ease;
+      }
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
         }
-        .falgun-gradient {
-            background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+        to {
+          transform: scale(1);
+          opacity: 1;
         }
-        .rule-card:hover {
-            transform: translateY(-2px);
-            transition: all 0.3s ease;
+      }
+      .animate-scaleIn {
+        animation: scaleIn 0.3s ease-out forwards;
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
-<body>
-    <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
-</body>
+  </head>
+  <body>
+    <div class="min-h-screen pb-20 relative">
+      <div id="confirm-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl animate-scaleIn border-4 border-orange-400">
+          <h3 class="text-2xl font-bold text-orange-900 mb-4 flex items-center">
+            <i class="fas fa-clipboard-check mr-3"></i> শেষ বার ভাবুন!
+          </h3>
+          <p class="text-gray-600 mb-6">কমিটির কাছে জমা দেওয়ার আগে চেক করে নিন। একবার জমা দিলে কিন্তু আর পাল্টানো যাবে না (ঘুষ ছাড়া)!</p>
+          <div class="bg-orange-50 p-4 rounded-2xl mb-6 space-y-2 border border-orange-100">
+            <p><strong>ডিশ:</strong> <span id="confirm-dish"></span></p>
+            <p><strong>অবদানকারী:</strong> <span id="confirm-contributor"></span></p>
+            <p><strong>ক্যাটাগরি:</strong> <span id="confirm-category"></span></p>
+          </div>
+          <div class="flex gap-4">
+            <button id="confirm-cancel" class="flex-1 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">
+              ভুল হয়েছে
+            </button>
+            <button id="confirm-submit" class="flex-1 py-3 falgun-gradient text-white font-bold rounded-xl shadow-lg hover:opacity-90 transition">
+              ঠিক আছে, জমা দিন
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <header class="falgun-gradient text-white py-12 px-4 text-center shadow-lg relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+          <i class="fas fa-leaf absolute text-4xl transform rotate-45 top-4 left-10"></i>
+          <i class="fas fa-sun absolute text-6xl top-10 right-20"></i>
+          <i class="fas fa-pepper-hot absolute text-4xl bottom-4 left-1/4"></i>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-md">🌼 পহেলা ফাল্গুন ২০২৬ 🌼</h1>
+        <p class="text-xl md:text-2xl font-medium">একডিশ পার্টি – মহাগুরুত্বপূর্ণ পোর্টাল</p>
+        <div class="mt-6 flex flex-wrap justify-center gap-4 text-sm font-semibold">
+          <span class="bg-white/20 px-4 py-2 rounded-full"><i class="fas fa-map-marker-alt mr-2"></i>Oatley Park, NSW</span>
+          <span class="bg-white/20 px-4 py-2 rounded-full"><i class="fas fa-calendar-day mr-2"></i>৭ই ফেব্রুয়ারি, ২০২৬</span>
+          <span class="bg-white/20 px-4 py-2 rounded-full"><i class="fas fa-clock mr-2"></i>দুপুর ২টা (আগে আসা নিষেধ)</span>
+        </div>
+      </header>
+
+      <nav class="sticky top-0 bg-white shadow-md z-50 mb-8 border-b-4 border-orange-400">
+        <div class="max-w-4xl mx-auto flex justify-around p-2">
+          <button data-tab="rules" class="tab-button flex-1 py-3 px-2 text-center font-bold rounded-lg transition-all bg-orange-500 text-white shadow-inner">📜 বিধি-বিধান</button>
+          <button data-tab="items" class="tab-button flex-1 py-3 px-2 text-center font-bold rounded-lg transition-all hover:bg-orange-50">🍛 ডিশ লিস্ট</button>
+          <button data-tab="committee" class="tab-button flex-1 py-3 px-2 text-center font-bold rounded-lg transition-all hover:bg-orange-50">🗳️ কমিটি</button>
+        </div>
+      </nav>
+
+      <main class="max-w-4xl mx-auto px-4">
+        <section id="tab-rules" class="tab-panel space-y-6 animate-fadeIn">
+          <div class="bg-purple-50 p-6 rounded-2xl shadow-sm border-l-8 border-purple-500">
+            <h2 class="text-2xl font-bold text-purple-800 mb-4 flex items-center">
+              <i class="fas fa-tshirt mr-3"></i> পোশাক বিধি (Dress Code) - কঠোর সতর্কতা!
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-purple-200">
+                <h3 class="font-bold text-pink-600 mb-2 underline decoration-pink-200 uppercase tracking-wide flex items-center">
+                  <i class="fas fa-female mr-2"></i> নারীদের জন্য:
+                </h3>
+                <p class="text-lg">অবশ্যই <span class="font-bold text-purple-700 italic">শাড়ি</span> পরতে হবে।</p>
+                <p class="text-xs text-gray-500 mt-2 italic">শাড়ি সামলাতে না পেরে পড়ে গেলে কমিটি হাত বাড়িয়ে দেবে না, শুধু ছবি তুলবে!</p>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-purple-200">
+                <h3 class="font-bold text-blue-600 mb-2 underline decoration-blue-200 uppercase tracking-wide flex items-center">
+                  <i class="fas fa-male mr-2"></i> পুরুষদের জন্য:
+                </h3>
+                <p class="text-lg">অবশ্যই <span class="font-bold text-purple-700 italic">পাঞ্জাবি</span> সঙ্গে প্যান্ট বা পায়জামা।</p>
+                <p class="text-xs text-gray-500 mt-2 italic">শর্টস বা টি-শার্ট পরে আসলে আপনাকে 'বিশেষ উপদেষ্টা'র সাথে রোদে বসিয়ে রাখা হবে!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-orange-500">
+            <h2 class="text-2xl font-bold text-orange-800 mb-4 flex items-center">
+              <i class="fas fa-gavel mr-3"></i> ১. একডিশ মানে সত্যিই একডিশ!
+            </h2>
+            <ul class="space-y-3 text-lg">
+              <li class="flex items-start"><span class="text-orange-500 mr-2 mt-1">●</span><span>প্রত্যেক অংশগ্রহণকারীকে এক (১) টি মাত্র ডিশ আনতেই হবে। 'আমি শুধু এসেছি' চলবে না।</span></li>
+              <li class="flex items-start"><span class="text-orange-500 mr-2 mt-1">●</span><span>প্রতিটি ডিশের ওজন হতে হবে ২০০ গ্রাম থেকে ৩০০ গ্রাম। (ওজন কমালে খবর আছে!)</span></li>
+              <li class="flex items-start"><span class="text-orange-500 mr-2 mt-1">●</span><span>অ্যালুমিনিয়াম ফয়েল ট্রে + Cling Wrap বাধ্যতামূলক। পত্রিকা বা শপিং ব্যাগ আনলে এন্ট্রি ফি ডাবল!</span></li>
+            </ul>
+          </div>
+
+          <div class="bg-red-50 p-6 rounded-2xl shadow-sm border-l-8 border-red-500">
+            <h2 class="text-2xl font-bold text-red-800 mb-4 flex items-center">
+              <i class="fas fa-ban mr-3"></i> ২. সাবডিশ ও বর্ডার আইন
+            </h2>
+            <p class="text-lg italic mb-4">ডিশের ভেতরে কোনো ধরনের সীমারেখা, পার্টিশন বা জাতিসংঘ অনুমোদিত বর্ডার রাখা যাবে না।</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white p-4 rounded-xl text-center border border-red-200"><span class="text-red-500 font-bold">❌ ভাত + কারি</span></div>
+              <div class="bg-white p-4 rounded-xl text-center border border-red-200"><span class="text-red-500 font-bold">❌ পোলাও + কাবাব</span></div>
+            </div>
+          </div>
+
+          <div class="bg-yellow-50 p-6 rounded-2xl shadow-sm border-l-8 border-yellow-500">
+            <h2 class="text-2xl font-bold text-yellow-800 mb-4 flex items-center">
+              <i class="fas fa-ring mr-3"></i> ৩. বৈবাহিক স্ট্যাটাস ভিত্তিক আইন
+            </h2>
+            <div class="space-y-4">
+              <div class="bg-white p-4 rounded-xl shadow-inner">
+                <h3 class="font-bold text-green-700">💍 বিবাহিত:</h3>
+                <p>দুজনে মিলে ১টি ডিশ যথেষ্ট। কমিটির তরফ থেকে আপনাদের জন্য সহানুভূতি রইল।</p>
+              </div>
+              <div class="bg-white p-4 rounded-xl shadow-inner">
+                <h3 class="font-bold text-red-700">💔 অবিবাহিত/সিঙ্গেল:</h3>
+                <p>নিজ নিজ ডিশ নিজে আনতেই হবে। একই বাসায় থাকলেও কোনো ছাড় নেই। এমনকি ফ্রিজ শেয়ার করলেও আলাদা ডিশ!</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8 bg-orange-100 rounded-3xl text-center border-4 border-dashed border-orange-300">
+            <p class="text-xl font-bold text-orange-800 mb-4">কমিটির বিশেষ ঘোষণা:</p>
+            <p class="text-gray-700 italic">"নিয়ম ভাঙলে শাস্তি নেই, কিন্তু কমিটির চোখের কোণার হাসি একটু কমে যেতে পারে 😄"</p>
+          </div>
+        </section>
+
+        <section id="tab-items" class="tab-panel hidden animate-fadeIn">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold text-orange-900">চূড়ান্ত ডিশ তালিকা</h2>
+            <button id="ai-button" class="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition flex items-center" disabled>
+              <i class="fas fa-robot mr-2"></i> কমিটি AI মতামত
+            </button>
+          </div>
+
+          <div id="ai-message" class="hidden bg-purple-100 border-2 border-purple-300 p-4 rounded-xl mb-6 flex items-start gap-4">
+            <div class="text-3xl">👺</div>
+            <div>
+              <h4 class="font-bold text-purple-900">কমিটি প্রেসিডেন্ট (AI):</h4>
+              <p class="text-purple-800 italic">AI বর্তমানে বন্ধ আছে। HTML-only ভার্সনে সংযুক্ত করা হয়নি।</p>
+            </div>
+          </div>
+
+          <div id="dish-list" class="grid gap-4 mb-10"></div>
+
+          <div class="bg-orange-50 p-8 rounded-3xl border-2 border-orange-200 shadow-inner">
+            <h3 class="text-2xl font-bold text-orange-900 mb-4">আবেদন করুন (Apply to Bring a Dish)</h3>
+            <form id="dish-form" class="space-y-4">
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-600 mb-1">ডিশের নাম</label>
+                  <input id="dish-name" type="text" required placeholder="যেমন: নবাবী শাহী পোলাও" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-600 mb-1">আপনার নাম</label>
+                  <input id="dish-contributor" type="text" required placeholder="যেমন: ডন তানভীর" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-600 mb-1">ক্যাটাগরি</label>
+                <select id="dish-category" class="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none">
+                  <option value="TBD">TBD (কমিটির দয়ার উপর)</option>
+                  <option value="Main">Main (ভারী খাবার)</option>
+                  <option value="Side">Side (ভর্তা-ভাজি-পানীয়)</option>
+                  <option value="Dessert">Dessert (মিষ্টিমুখ)</option>
+                </select>
+              </div>
+              <button type="submit" class="w-full py-4 falgun-gradient text-white font-bold rounded-xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all">
+                কমিটির কাছে আবেদন জমা দিন
+              </button>
+            </form>
+            <p class="text-xs text-center text-gray-500 mt-4 italic">বি:দ্র: আবেদন জমা দেওয়া মানেই অনুমোদন নয়। ঘুষ হিসেবে মিষ্টি আনলে দ্রুত কাজ হতে পারে।</p>
+          </div>
+        </section>
+
+        <section id="tab-committee" class="tab-panel hidden animate-fadeIn pb-10">
+          <h2 class="text-3xl font-bold text-orange-900 mb-6">কমিটি নির্বাচন বিধিমালা ও গঠন</h2>
+          <div id="committee-list" class="grid md:grid-cols-2 gap-6 mb-12"></div>
+
+          <div class="bg-white p-8 rounded-3xl shadow-xl space-y-6 border-2 border-orange-500 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 bg-orange-500 text-white font-bold rounded-bl-3xl">যোগ্যতা</div>
+            <h3 class="text-2xl font-bold text-gray-800 underline decoration-orange-400">কমিটির সদস্য হতে হলে:</h3>
+            <ul class="space-y-4 text-lg">
+              <li class="flex items-center gap-3"><i class="fab fa-whatsapp text-green-500 text-2xl"></i><span>Seen দিয়ে রিপ্লাই না দেওয়ার অভ্যাস থাকতে হবে।</span></li>
+              <li class="flex items-center gap-3"><i class="fas fa-ghost text-gray-400 text-2xl"></i><span>'সবাই ঠিক আছে তো?' লিখে অদৃশ্য হয়ে যাওয়ার ক্ষমতা থাকতে হবে।</span></li>
+              <li class="flex items-center gap-3"><i class="fas fa-user-clock text-blue-500 text-2xl"></i><span>সর্বোপরি, ফ্রি সময় কম থাকার ভান করতে জানতে হবে।</span></li>
+            </ul>
+          </div>
+
+          <div class="mt-10 p-6 bg-red-100 rounded-2xl border-2 border-red-300 text-center shadow-inner">
+            <h4 class="text-red-800 font-bold mb-2 uppercase tracking-widest text-sm">গোপন ধারা (Most Important Clause)</h4>
+            <p class="text-red-700 italic text-xl font-medium">"কমিটির সব সিদ্ধান্ত হবে সর্বসম্মতিক্রমে অথবা যিনি সবচেয়ে জোরে কথা বলবেন তার পক্ষে!"</p>
+          </div>
+        </section>
+      </main>
+
+      <button id="panic-button" class="fixed bottom-6 right-6 w-16 h-16 bg-red-600 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl animate-bounce z-50 hover:bg-red-700 transition-colors" title="Panic Button">
+        <i class="fas fa-exclamation-triangle"></i>
+      </button>
+
+      <footer class="mt-20 py-8 bg-gray-900 text-gray-400 text-center text-sm px-4">
+        <p class="mb-2">© ২০২৬ পহেলা ফাল্গুন কমিটি (অাতঙ্কিত জনকল্যাণ সংস্থা)</p>
+        <p>সবাইকে অনুরোধ— ডিশ আনুন, হাসি আনুন, আর পহেলা ফাল্গুন উপভোগ করুন! 🌼</p>
+      </footer>
+    </div>
+
+    <script>
+      const dishes = [
+        { id: '1', name: 'Mutton Rezala', contributor: 'Tanvir Bhai', status: 'Finalised', category: 'Main' },
+        { id: '2', name: 'Chicken Roast', contributor: 'Rumana Bhabi', status: 'Finalised', category: 'Main' },
+        { id: '3', name: 'Beef Kala Bhuna', contributor: 'Committee (Self)', status: 'Finalised', category: 'Main' },
+        { id: '4', name: 'Egg Korma', contributor: 'Zunaid', status: 'Bribed', category: 'Side' },
+        { id: '5', name: 'Jorda/Sweet', contributor: 'Adnan', status: 'Under Review', category: 'Dessert' },
+        { id: '6', name: 'Shahi Tukda', contributor: 'Nafisa Matin Jahin', status: 'Finalised', category: 'Dessert' },
+        { id: '7', name: 'Aloo Bokhara Chatney', contributor: 'Adil Ahnaf Mugdho', status: 'Under Review', category: 'Side' },
+        { id: '8', name: 'Borhani', contributor: 'Kakon Rahman', status: 'Finalised', category: 'Side' },
+        { id: '9', name: 'Pulao', contributor: 'Ar Rafi', status: 'Finalised', category: 'Main' },
+        { id: '10', name: 'Kebab Special', contributor: 'Nafis Mahmud', status: 'Bribed', category: 'Main' }
+      ];
+
+      const committeeMembers = [
+        { role: 'সভাপতি (President)', description: 'যিনি কিছুই করেন না কিন্তু সব সিদ্ধান্ত তার।', power: 'Infinite (on paper)', icon: 'fa-crown text-yellow-500' },
+        { role: 'সাধারণ সম্পাদক (General Secretary)', description: 'যিনি সব কাজ করেন কিন্তু কৃতিত্ব পান না।', power: 'Negative energy', icon: 'fa-pen-nib text-blue-500' },
+        { role: 'খাদ্য সমন্বয়কারী (Food Coordinator)', description: 'যার ফোন সবসময় ব্যস্ত থাকবে।', power: 'Always busy', icon: 'fa-phone-volume text-green-500' },
+        { role: 'বিশেষ উপদেষ্টা (Special Advisor)', description: 'যিনি কোনো সিদ্ধান্তে আসেন না, শুধু উপদেশ দেন।', power: 'Unlimited Wisdom', icon: 'fa-brain text-purple-500' }
+      ];
+
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+      const dishList = document.getElementById('dish-list');
+      const committeeList = document.getElementById('committee-list');
+      const dishForm = document.getElementById('dish-form');
+      const confirmModal = document.getElementById('confirm-modal');
+      const confirmDish = document.getElementById('confirm-dish');
+      const confirmContributor = document.getElementById('confirm-contributor');
+      const confirmCategory = document.getElementById('confirm-category');
+      const confirmCancel = document.getElementById('confirm-cancel');
+      const confirmSubmit = document.getElementById('confirm-submit');
+      const panicButton = document.getElementById('panic-button');
+      const aiButton = document.getElementById('ai-button');
+      const aiMessage = document.getElementById('ai-message');
+
+      const getCategoryStyle = (category) => {
+        switch (category) {
+          case 'Main':
+            return { bg: 'bg-red-100', text: 'text-red-700', icon: 'fa-drumstick-bite' };
+          case 'Side':
+            return { bg: 'bg-blue-100', text: 'text-blue-700', icon: 'fa-leaf' };
+          case 'Dessert':
+            return { bg: 'bg-pink-100', text: 'text-pink-700', icon: 'fa-cookie' };
+          default:
+            return { bg: 'bg-gray-100', text: 'text-gray-700', icon: 'fa-question' };
+        }
+      };
+
+      const renderDishes = () => {
+        dishList.innerHTML = dishes
+          .map((dish) => {
+            const categoryStyle = getCategoryStyle(dish.category);
+            const statusClass =
+              dish.status === 'Finalised'
+                ? 'bg-green-100 text-green-700 border border-green-200'
+                : dish.status === 'Bribed'
+                  ? 'bg-yellow-100 text-yellow-700 border border-yellow-200'
+                  : 'bg-blue-100 text-blue-700 border border-blue-200';
+            return `
+              <div class="bg-white p-5 rounded-2xl shadow-md border-r-4 border-orange-500 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:shadow-lg">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-full ${categoryStyle.bg} flex items-center justify-center shrink-0 shadow-sm">
+                    <i class="fas ${categoryStyle.icon} ${categoryStyle.text} text-xl"></i>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <h3 class="text-xl font-bold text-gray-800 leading-tight">${dish.name}</h3>
+                      <span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider ${categoryStyle.bg} ${categoryStyle.text} border">${dish.category}</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-1">অবদানকারী: <span class="text-orange-600 font-bold">${dish.contributor}</span></p>
+                  </div>
+                </div>
+                <div class="px-4 py-1.5 rounded-full text-xs font-black shadow-sm text-center uppercase tracking-widest ${statusClass}">${dish.status}</div>
+              </div>
+            `;
+          })
+          .join('');
+      };
+
+      const renderCommittee = () => {
+        committeeList.innerHTML = committeeMembers
+          .map((member) => {
+            return `
+              <div class="bg-white p-6 rounded-2xl shadow-lg border-b-8 border-orange-300 rule-card transition-all">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-4">
+                    <i class="fas ${member.icon} text-2xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-gray-800">${member.role}</h3>
+                </div>
+                <p class="text-gray-600 mb-3">${member.description}</p>
+                <div class="bg-gray-50 p-2 rounded-lg text-xs font-mono text-gray-500 border border-gray-100">POWER LEVEL: ${member.power}</div>
+              </div>
+            `;
+          })
+          .join('');
+      };
+
+      const setActiveTab = (tab) => {
+        tabButtons.forEach((button) => {
+          const isActive = button.dataset.tab === tab;
+          button.classList.toggle('bg-orange-500', isActive);
+          button.classList.toggle('text-white', isActive);
+          button.classList.toggle('shadow-inner', isActive);
+          button.classList.toggle('hover:bg-orange-50', !isActive);
+        });
+        tabPanels.forEach((panel) => {
+          panel.classList.toggle('hidden', panel.id !== `tab-${tab}`);
+        });
+      };
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => setActiveTab(button.dataset.tab));
+      });
+
+      dishForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('dish-name').value.trim();
+        const contributor = document.getElementById('dish-contributor').value.trim();
+        const category = document.getElementById('dish-category').value;
+        if (!name || !contributor) return;
+        confirmDish.textContent = name;
+        confirmContributor.textContent = contributor;
+        confirmCategory.textContent = category;
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+      });
+
+      confirmCancel.addEventListener('click', () => {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+      });
+
+      confirmSubmit.addEventListener('click', () => {
+        const name = confirmDish.textContent;
+        const contributor = confirmContributor.textContent;
+        const category = confirmCategory.textContent;
+        dishes.unshift({
+          id: crypto.randomUUID(),
+          name,
+          contributor,
+          status: 'Under Review',
+          category
+        });
+        renderDishes();
+        dishForm.reset();
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+        alert('আপনার আবেদন জমা হয়েছে। কমিটি এখন আপনার ডিশটি বিচার করবে!');
+      });
+
+      panicButton.addEventListener('click', () => {
+        alert('আতঙ্কিত হবেন না! পার্টিতে আসা বাধ্যতামূলক। কোনো অজুহাত চলবে না।');
+      });
+
+      aiButton.addEventListener('click', () => {
+        aiMessage.classList.remove('hidden');
+      });
+
+      renderDishes();
+      renderCommittee();
+      setActiveTab('rules');
+    </script>
+  </body>
 </html>
