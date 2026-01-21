@@ -211,7 +211,8 @@
         </section>
 
         <section id="tab-committee" class="tab-panel hidden animate-fadeIn pb-10">
-          <h2 class="text-3xl font-bold text-orange-900 mb-6">কমিটি নির্বাচন বিধিমালা ও গঠন</h2>
+          <h2 class="text-3xl font-bold text-orange-900">সমিতি সদস্য এবং ভূমিকা</h2>
+          <p class="text-sm text-gray-500 mb-6">Jan 20, 2026</p>
           <div id="committee-list" class="grid md:grid-cols-2 gap-6 mb-12"></div>
 
           <div class="bg-white p-8 rounded-3xl shadow-xl space-y-6 border-2 border-orange-500 relative overflow-hidden">
@@ -256,10 +257,90 @@
       ];
 
       const committeeMembers = [
-        { role: 'সভাপতি (President)', description: 'যিনি কিছুই করেন না কিন্তু সব সিদ্ধান্ত তার।', power: 'Infinite (on paper)', icon: 'fa-crown text-yellow-500' },
-        { role: 'সাধারণ সম্পাদক (General Secretary)', description: 'যিনি সব কাজ করেন কিন্তু কৃতিত্ব পান না।', power: 'Negative energy', icon: 'fa-pen-nib text-blue-500' },
-        { role: 'খাদ্য সমন্বয়কারী (Food Coordinator)', description: 'যার ফোন সবসময় ব্যস্ত থাকবে।', power: 'Always busy', icon: 'fa-phone-volume text-green-500' },
-        { role: 'বিশেষ উপদেষ্টা (Special Advisor)', description: 'যিনি কোনো সিদ্ধান্তে আসেন না, শুধু উপদেশ দেন।', power: 'Unlimited Wisdom', icon: 'fa-brain text-purple-500' }
+        {
+          role: 'প্রধান অতিথি',
+          description: 'সৈয়দা জুনাইরাহ নামীরা',
+          power: 'Chief Guest',
+          icon: 'fa-star text-yellow-500'
+        },
+        {
+          role: 'সভাপতি',
+          description: 'সৈয়দ নাজমুস সাকিব',
+          power: 'President',
+          icon: 'fa-crown text-orange-500'
+        },
+        {
+          role: 'ভারপ্রাপ্ত সভাপতি',
+          description: 'নাফিসা মতিন জাহিন',
+          power: 'Acting President',
+          icon: 'fa-user-tie text-purple-500'
+        },
+        {
+          role: 'কোষাধ্যক্ষ',
+          description: 'আদিল আহনাফ মুগ্ধ',
+          power: 'Treasurer',
+          icon: 'fa-coins text-amber-500'
+        },
+        {
+          role: 'সমন্বয়ক',
+          description: 'তাসনিম হোসাইন অপ্পা',
+          power: 'Coordinator',
+          icon: 'fa-people-group text-blue-500'
+        },
+        {
+          role: 'কুমার উপদেষ্টা',
+          description: 'নাফিস মাহমুদ তাসিন',
+          power: 'Advisor',
+          icon: 'fa-user-shield text-gray-500'
+        },
+        {
+          role: 'দায়িত্বহীন উপদেষ্টা নির্দেশক',
+          description: 'হাসান রায়হান আলভী',
+          power: 'Advisor',
+          icon: 'fa-user-astronaut text-slate-500'
+        },
+        {
+          role: 'সৃজনশীল নির্দেশক',
+          description: 'মিশৌরা রহমান কাকন',
+          power: 'Creative Director',
+          icon: 'fa-palette text-pink-500'
+        },
+        {
+          role: 'তথ্য ও সম্প্রচার বিষয়ক উপদেষ্টা',
+          description: 'এ আর রাফি',
+          power: 'Info & Broadcast',
+          icon: 'fa-bullhorn text-red-500'
+        },
+        {
+          role: 'তথ্য ও সম্প্রচার বিষয়ক উপদেষ্টা',
+          description: 'আফিয়া সাইয়ারা আনতারা',
+          power: 'Info & Broadcast',
+          icon: 'fa-bullhorn text-red-500'
+        },
+        {
+          role: 'খাদ্য বিষয়ক উপদেষ্টা',
+          description: 'আকিব রহমান',
+          power: 'Food Advisor',
+          icon: 'fa-utensils text-green-500'
+        },
+        {
+          role: 'খাদ্য বিষয়ক উপদেষ্টা',
+          description: 'নওশীন নাহা',
+          power: 'Food Advisor',
+          icon: 'fa-utensils text-green-500'
+        },
+        {
+          role: 'ক্রীড়া বিষয়ক উপদেষ্টা',
+          description: 'অরুনীমা পুজা',
+          power: 'Sports Advisor',
+          icon: 'fa-volleyball text-blue-500'
+        },
+        {
+          role: 'খাদ্য নিরীক্ষক',
+          description: 'অর্নব অনু',
+          power: 'Food Auditor',
+          icon: 'fa-clipboard-check text-orange-500'
+        }
       ];
 
       const tabButtons = document.querySelectorAll('.tab-button');
